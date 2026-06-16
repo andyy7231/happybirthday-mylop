@@ -23,15 +23,29 @@ function applyTheme(mode) {
   if (btn) btn.textContent = mode === "dark" ? "☀️" : "🌙";
 }
 
-function createThemeToggle() {
-  const btn = document.createElement("button");
-  btn.id = "theme-toggle";
-  btn.title = "Toggle dark/light mode";
-  btn.textContent = currentMode === "dark" ? "☀️" : "🌙";
-  btn.addEventListener("click", () => {
-    applyTheme(currentMode === "dark" ? "light" : "dark");
-  });
-  document.body.appendChild(btn);
+function createGlobalStars() {
+  const container = document.createElement("div");
+  container.className = "global-stars";
+  document.body.appendChild(container);
+
+  const count = 75;
+  for (let i = 0; i < count; i++) {
+    const star = document.createElement("div");
+    star.className = "global-star";
+    star.style.left = `${Math.random() * 100}%`;
+    star.style.top = `${Math.random() * 100}%`;
+    star.style.width = star.style.height = `${1 + Math.random() * 2}px`;
+    
+    star.style.animationDuration = `${2 + Math.random() * 3}s`;
+    star.style.animationDelay = `${Math.random() * 3}s`;
+    
+    if (Math.random() > 0.6) {
+      star.style.background = "var(--primary)";
+      star.style.boxShadow = "0 0 4px var(--primary), 0 0 8px var(--primary)";
+    }
+    
+    container.appendChild(star);
+  }
 }
 
 // ── Script Loader ────────────────────────────────────────────────
@@ -47,8 +61,8 @@ function loadScript(src) {
 
 // ── Main ─────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", async () => {
-  applyTheme(currentMode);
-  createThemeToggle();
+  applyTheme("dark");
+  createGlobalStars();
 
   // Set music source
   const audio = document.querySelector(".song");
